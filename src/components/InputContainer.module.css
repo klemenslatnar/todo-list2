@@ -1,0 +1,41 @@
+.input-container {
+  width: 690px;
+  height: 100px;
+  background-color: #3cff66;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.input-container input {
+  width: 500px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  margin-left: 30px;
+  padding-left: 20px;
+  box-sizing: border-box;
+  font-size: 1.2em;
+}
+
+.input-container input:active {
+  border: none;
+}
+
+.input-container button {
+  margin: 0 auto;
+  background-color: white;
+  width: 100px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1em;
+}
+
+.input-container button:hover {
+  cursor: pointer;
+}
+
+.error {
+  font-size: 1.5em;
+}

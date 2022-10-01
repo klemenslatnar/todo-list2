@@ -1,0 +1,9 @@
+.task-container {
+  width: 690px;
+  background-color: #3cff66;
+  border-radius: 2rem;
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

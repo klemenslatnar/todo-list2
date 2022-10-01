@@ -1,10 +1,16 @@
-import React, { useContext, useState } from "react";
-import TaskContext from "../context/task-context";
+import React, { useState } from "react";
 import classes from "./Task.module.css";
 
 function Task({ name, id }) {
-  const { removeTask, taskList } = useContext(TaskContext);
   const [done, setDone] = useState(false);
+
+  const removeHandler = async (id) => {
+    const result = await fetch("/remove-task", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: id }),
+    });
+  };
 
   const doneHandler = () => {
     setDone((prevValue) => {
@@ -21,14 +27,7 @@ function Task({ name, id }) {
       </div>
       <div className={classes.buttons}>
         <button onClick={doneHandler}>✅</button>
-        <button
-          onClick={() => {
-            console.log(taskList);
-            removeTask(id);
-          }}
-        >
-          ❌
-        </button>
+        <button onClick={() => removeHandler(id)}>❌</button>
       </div>
     </div>
   );

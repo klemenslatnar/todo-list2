@@ -1,15 +1,29 @@
-import React, { useContext } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import classes from "./TaskContainer.module.css";
 import Task from "./Task";
-import TaskContext from "../context/task-context";
 
 function TaskContainer() {
-  const { taskList } = useContext(TaskContext);
+  const [taskList, setTaskList] = useState([]);
+
+  const getAllTasks = async () => {
+    const response = await fetch("/all-tasks");
+    const data = await response.json();
+
+    if (response.status !== 200) {
+      throw Error(data.message);
+    }
+
+    setTaskList(data);
+  };
+
+  useEffect(() => {
+    getAllTasks();
+  }, []);
 
   return (
     <div className={classes["task-container"]}>
       {taskList.map((task) => {
-        return <Task key={task.id} id={task.id} name={task.taskName} />;
+        return <Task key={task._id} id={task._id} name={task.name} />;
       })}
     </div>
   );

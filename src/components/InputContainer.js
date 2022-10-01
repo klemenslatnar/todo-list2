@@ -1,33 +1,50 @@
-import React, { useContext, useState } from "react";
-import TaskContext from "../context/task-context";
+import React, {  useState } from "react";
 import classes from "./InputContainer.module.css";
 
 function InputContainer() {
   const [inputValue, setInputValue] = useState("");
   const [task, setTask] = useState({});
   const [error, setError] = useState(false);
-  const { taskList, updateTaskList } = useContext(TaskContext);
+
+  // const getAPI = async () => {
+  //   const response = await fetch("/express-backend");
+  //   const body = await response.json();
+
+  //   if (response.status !== 200) {
+  //     throw Error(body.message);
+  //   }
+  //   return body;
+  // };
+
+  const postTask = async () => {
+    const response = await fetch("/new-task", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(task),
+    });
+  };
 
   let errorMsg = "Please enter a task!";
 
   const changeHandler = (e) => {
     setInputValue(e.target.value);
-    setTask({ taskName: e.target.value, id: Math.random() });
+    setTask({ taskName: e.target.value });
   };
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-
+  const submitHandler = async (e) => {
     if (inputValue.trim().length === 0) {
+      e.preventDefault();
       setError(true);
       return;
     } else {
+      e.preventDefault();
+
       setError(false);
-      updateTaskList(task);
+
+      postTask();
 
       setTask({});
       setInputValue("");
-      console.log(taskList);
     }
   };
 
@@ -35,7 +52,7 @@ function InputContainer() {
     <>
       <form onSubmit={submitHandler} className={classes["input-container"]}>
         <input onChange={changeHandler} type="text" value={inputValue} />
-        <button>Add Task</button>
+        <button type="submit">Add Task</button>
       </form>
       {error ? <div className={classes.error}>{errorMsg}</div> : ""}
     </>
